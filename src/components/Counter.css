@@ -1,0 +1,41 @@
+.counter-wrapper {
+  width: 100%;
+  border: 1px red solid;
+  background-color: red;
+}
+
+.counter-label {
+  display: block;
+  text-align: center;
+  font-size: 20px;
+  margin-bottom: 8px;
+}
+
+.counter-container {
+  background-color: green;
+  display: flex;
+  width: 100%;
+  align-items: center;
+}
+
+.counter-button {
+  padding: 2%;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.counter-input {
+  flex: 1;
+  text-align: center;
+  font-size: 24px;
+  border: none;
+  outline: none;
+  background: transparent;
+  -moz-appearance: textfield;
+}
+
+.counter-input::-webkit-outer-spin-button,
+.counter-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
