@@ -5,9 +5,14 @@ interface CounterProps {
   label: string;
   value: number;
   onChange: (value: number) => void;
+  squares?: string[];
 }
 
-const Counter: React.FC<CounterProps> = ({ label, value, onChange }) => {
+
+const Counter: React.FC<CounterProps> = ({ label, value, onChange, squares }) => {
+
+  let initialSquares = Array.from({ length: value }, () => "?");
+
   return (
     <div className="counter-wrapper">
       <label className="counter-label">{label}</label>
@@ -15,12 +20,13 @@ const Counter: React.FC<CounterProps> = ({ label, value, onChange }) => {
         <button onClick={() => onChange(value - 1)} className="counter-button">
           -
         </button>
-        <input
-          type="number"
-          value={value}
-          onChange={(e) => onChange(Number(e.target.value))}
-          className="counter-input"
-        />
+        <div className="counter-squares-container">
+          {(squares || initialSquares).map((symbol, index) => (
+            <div key={index} className="counter-square">
+              {symbol}
+            </div>
+          ))}
+        </div>
         <button onClick={() => onChange(value + 1)} className="counter-button">
           +
         </button>

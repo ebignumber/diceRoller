@@ -41,6 +41,8 @@ const Home: React.FC = () => {
     d20: [],
   });
 
+  const [showRoll, setShowRoll] = useState(false)
+
 
 
   const updateDice = (key: keyof DiceConfig, value: number) => {
@@ -67,7 +69,7 @@ const Home: React.FC = () => {
       result.d8 = Array.from({ length: diceConfig.d8 }, () => Math.floor(Math.random() * 8) + 1);
     }
     if (diceConfig.d10 > 0) {
-      result.d10 = Array.from({ length: diceConfig.d10 }, () => Math.floor(Math.random() * 10) + 1);
+      result.d10 = Array.from({ length: diceConfig.d10 }, () => Math.floor(Math.random() * 10));
     }
     if (diceConfig.d12 > 0) {
       result.d12 = Array.from({ length: diceConfig.d12 }, () => Math.floor(Math.random() * 12) + 1);
@@ -78,6 +80,13 @@ const Home: React.FC = () => {
 
     return result;
   };
+
+  const handleDiceRoll = () => {
+    if(!showRoll){
+      setShowRoll(true)
+    }
+    setRoll(rollDice(dice))
+  }
 
   return (
     <IonPage>
@@ -90,14 +99,14 @@ const Home: React.FC = () => {
           <IonToolbar>
           </IonToolbar>
         </IonHeader>
-        <Counter label='d4' value={dice.d4} onChange={(v) => updateDice('d4', v)} />
-        <Counter label='d6' value={dice.d6} onChange={(v) => updateDice('d6', v)} />
-        <Counter label='d8' value={dice.d8} onChange={(v) => updateDice('d8', v)} />
-        <Counter label='d10' value={dice.d10} onChange={(v) => updateDice('d10', v)} />
-        <Counter label='d12' value={dice.d12} onChange={(v) => updateDice('d12', v)} />
-        <Counter label='d20' value={dice.d20} onChange={(v) => updateDice('d20', v)} />
+          <Counter label='d4' value={dice.d4} onChange={(v) => updateDice('d4', v)} />
+          <Counter label='d6' value={dice.d6} onChange={(v) => updateDice('d6', v)} />
+          <Counter label='d8' value={dice.d8} onChange={(v) => updateDice('d8', v)} />
+          <Counter label='d10' value={dice.d10} onChange={(v) => updateDice('d10', v)} />
+          <Counter label='d12' value={dice.d12} onChange={(v) => updateDice('d12', v)} />
+          <Counter label='d20' value={dice.d20} onChange={(v) => updateDice('d20', v)} />
       </IonContent>
-      <IonButton onClick={() => setRoll(rollDice(dice))}>Roll</IonButton>
+      <IonButton onClick={() => handleDiceRoll()}>Roll</IonButton>
     </IonPage>
   );
 };

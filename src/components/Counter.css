@@ -24,18 +24,21 @@
   cursor: pointer;
 }
 
-.counter-input {
-  flex: 1;
-  text-align: center;
-  font-size: 24px;
-  border: none;
-  outline: none;
-  background: transparent;
-  -moz-appearance: textfield;
+.counter-squares-container {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  overflow: scroll;
 }
 
-.counter-input::-webkit-outer-spin-button,
-.counter-input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
+.counter-square {
+  width: 40px;
+  height: 40px;
+  border: 2px solid #333;
+  font-size: 24px;
+  background-color: white;
+  color: #333;
+  text-align: center;
 }
