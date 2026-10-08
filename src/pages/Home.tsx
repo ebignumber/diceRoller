@@ -43,10 +43,12 @@ const Home: React.FC = () => {
 
   const [showRoll, setShowRoll] = useState(false)
 
+  const [rollLastPressed, setRollLastPressed] = useState(false)
 
 
   const updateDice = (key: keyof DiceConfig, value: number) => {
     setDice(prev => ({ ...prev, [key]: Math.max(0, value) }));
+    setRollLastPressed(false)
   };
 
   const rollDice = (diceConfig: DiceConfig) => {
@@ -86,6 +88,16 @@ const Home: React.FC = () => {
       setShowRoll(true)
     }
     setRoll(rollDice(dice))
+    setRollLastPressed(true)
+  }
+
+  const updateSquares = (key: keyof RollConfig) => {
+    if(rollLastPressed){
+      return roll[key]
+    }
+    else{
+      return Array.from({ length: dice[key] }, () => "?");
+    }
   }
 
   return (
@@ -99,12 +111,12 @@ const Home: React.FC = () => {
           <IonToolbar>
           </IonToolbar>
         </IonHeader>
-          <Counter label='d4' value={dice.d4} onChange={(v) => updateDice('d4', v)} />
-          <Counter label='d6' value={dice.d6} onChange={(v) => updateDice('d6', v)} />
-          <Counter label='d8' value={dice.d8} onChange={(v) => updateDice('d8', v)} />
-          <Counter label='d10' value={dice.d10} onChange={(v) => updateDice('d10', v)} />
-          <Counter label='d12' value={dice.d12} onChange={(v) => updateDice('d12', v)} />
-          <Counter label='d20' value={dice.d20} onChange={(v) => updateDice('d20', v)} />
+          <Counter label='d4' value={dice.d4} onChange={(v) => updateDice('d4', v)} squares={updateSquares('d4')}/> 
+          <Counter label='d6' value={dice.d6} onChange={(v) => updateDice('d6', v)} squares={updateSquares('d6')}/>
+          <Counter label='d8' value={dice.d8} onChange={(v) => updateDice('d8', v)} squares={updateSquares('d8')}/>
+          <Counter label='d10' value={dice.d10} onChange={(v) => updateDice('d10', v)} squares={updateSquares('d10')}/>
+          <Counter label='d12' value={dice.d12} onChange={(v) => updateDice('d12', v)} squares={updateSquares('d12')}/>
+          <Counter label='d20' value={dice.d20} onChange={(v) => updateDice('d20', v)} squares={updateSquares('d20')}/>
       </IonContent>
       <IonButton onClick={() => handleDiceRoll()}>Roll</IonButton>
     </IonPage>

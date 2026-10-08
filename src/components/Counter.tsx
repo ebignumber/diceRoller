@@ -5,7 +5,7 @@ interface CounterProps {
   label: string;
   value: number;
   onChange: (value: number) => void;
-  squares?: string[];
+  squares?: string[] | number[];
 }
 
 
