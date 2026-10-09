@@ -1,0 +1,3 @@
+html {
+  margin-top: calc(var(--safe-area-inset-top, env(safe-area-inset-top, 0px)) * -1.25);
+}
