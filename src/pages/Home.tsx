@@ -100,6 +100,18 @@ const Home: React.FC = () => {
     }
   }
 
+  const clearDice = () => {
+    setDice({
+      d4: 0,
+      d6: 0,
+      d8: 0,
+      d10: 0,
+      d12: 0,
+      d20: 0,
+    })
+    setRollLastPressed(false)
+  }
+
   return (
     <IonPage>
       <IonHeader>
@@ -119,6 +131,7 @@ const Home: React.FC = () => {
           <Counter label='d20' value={dice.d20} onChange={(v) => updateDice('d20', v)} squares={updateSquares('d20')}/>
       </IonContent>
       <IonButton onClick={() => handleDiceRoll()}>Roll</IonButton>
+      <IonButton onClick={clearDice}>Clear</IonButton>
     </IonPage>
   );
 };
