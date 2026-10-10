@@ -1,7 +1,7 @@
 .counter-wrapper {
   width: 100%;
-  border: 1px red solid;
-  background-color: red;
+  border: 1px var(--ion-light-contrast) solid;
+  background-color: var(--ion-light-contrast);
 }
 
 .counter-label {
@@ -11,7 +11,7 @@
 }
 
 .counter-container {
-  background-color: green;
+  background-color: gray;
   display: flex;
   width: 100%;
   align-items: center;
@@ -35,8 +35,7 @@
   margin: auto;
   text-wrap: nowrap;
   border: 2px solid #333;
+  background-color: var(--ion-color-dark-contrast);
   font-size: 20px;
-  background-color: white;
-  color: #333;
   text-align: center;
 }
