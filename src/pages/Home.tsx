@@ -138,7 +138,7 @@ const Home: React.FC = () => {
           <IonToolbar>
           </IonToolbar>
         </IonHeader>
-        <div>Total: {total}</div>
+        <h3>Total: {total}</h3>
         <Counter label='d4' value={dice.d4} onChange={(v) => updateDice('d4', v)} squares={updateSquares('d4')}/> 
         <Counter label='d6' value={dice.d6} onChange={(v) => updateDice('d6', v)} squares={updateSquares('d6')}/>
         <Counter label='d8' value={dice.d8} onChange={(v) => updateDice('d8', v)} squares={updateSquares('d8')}/>
