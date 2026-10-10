@@ -33,8 +33,7 @@
 
 .counter-square {
   margin: auto;
-  min-width: 30px;
-  min-height: 30px;
+  text-wrap: nowrap;
   border: 2px solid #333;
   font-size: 20px;
   background-color: white;
