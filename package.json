@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@capacitor/android": "^8.5.3",
+    "@capacitor/assets": "^3.0.5",
     "@capacitor/cli": "^8.5.3",
     "@capacitor/core": "^8.5.3",
     "@ionic/react": "^9.0.0",
@@ -22,7 +23,8 @@
     "react": "19.0.0",
     "react-dom": "19.0.0",
     "react-router": "^6.30.0",
-    "react-router-dom": "^6.30.0"
+    "react-router-dom": "^6.30.0",
+    "sharp": "^0.35.5"
   },
   "devDependencies": {
     "@testing-library/dom": ">=7.21.4",
