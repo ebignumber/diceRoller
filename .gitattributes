@@ -1,3 +1,0 @@
-assets/icon-background.png filter=lfs diff=lfs merge=lfs -text
-assets/icon-foreground.png filter=lfs diff=lfs merge=lfs -text
-assets/icon-only.png filter=lfs diff=lfs merge=lfs -text
