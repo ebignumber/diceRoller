@@ -130,7 +130,7 @@ const Home: React.FC = () => {
   return (
     <IonPage>
       <IonHeader>
-        <IonToolbar>
+        <IonToolbar style={{marginTop: "calc(var(--safe-area-inset-top, env(safe-area-inset-top, 0px)) * -1.25);"}}>
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen>

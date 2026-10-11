@@ -1,5 +1,15 @@
+/*
+ * The lines of code in html and ion-toolbar allow the page to
+ * load above the navigation buttons on the bottom on android
+ * screens and pushes the toolbar downwards. This allows
+*/
+
 html {
   margin-top: calc(var(--safe-area-inset-top, env(safe-area-inset-top, 0px)) * -1.25);
+}
+
+ion-toolbar {
+  margin-top: calc(var(--safe-area-inset-top, env(safe-area-inset-top, 0px)) * 1.25);
 }
 
 h3 {
