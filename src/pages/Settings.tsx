@@ -8,7 +8,7 @@ const Settings = () => {
   useEffect(
     () => {
       (async () => {
-        setTenToZero((await getSetting("ten-to-zero")) == 'true')
+        setTenToZero((await getSetting("ten-to-zero")) !== 'false')
       })()
     }, []
   )

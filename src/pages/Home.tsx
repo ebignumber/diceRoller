@@ -4,7 +4,7 @@ import { getSetting } from '../hooks/settingHooks';
 import Counter from '../components/Counter';
 import './Home.css';
 
-const tenToZero = await getSetting("ten-to-zero") == "true"
+const tenToZero = await getSetting("ten-to-zero") !== "false"
 
 interface DiceConfig {
   d4: number;
