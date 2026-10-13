@@ -1,7 +1,10 @@
 import { useState, useEffect } from 'react';
 import { IonButton, IonButtons, IonContent, IonHeader, IonIcon, IonMenu, IonMenuButton, IonMenuToggle, IonPage, IonTitle, IonToggle, IonToolbar } from '@ionic/react';
+import { getSetting } from '../hooks/settingHooks';
 import Counter from '../components/Counter';
 import './Home.css';
+
+const tenToZero = await getSetting("ten-to-zero") == "true"
 
 interface DiceConfig {
   d4: number;
@@ -108,6 +111,9 @@ const Home: React.FC = () => {
 
   const updateSquares = (key: keyof RollConfig) => {
     if(rollLastPressed){
+      if(key === 'd10' && tenToZero){
+        return roll[key].map((num) => num == 10 ? 0 : num)
+      }
       return roll[key]
     }
     else{
