@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { IonButton, IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/react';
+import { IonButton, IonButtons, IonContent, IonHeader, IonIcon, IonMenu, IonMenuButton, IonMenuToggle, IonPage, IonTitle, IonToggle, IonToolbar } from '@ionic/react';
 import Counter from '../components/Counter';
 import './Home.css';
 
@@ -128,27 +128,33 @@ const Home: React.FC = () => {
   }
 
   return (
-    <IonPage>
-      <IonHeader>
-        <IonToolbar style={{marginTop: "calc(var(--safe-area-inset-top, env(safe-area-inset-top, 0px)) * -1.25);"}}>
-        </IonToolbar>
-      </IonHeader>
-      <IonContent fullscreen>
-        <IonHeader collapse="condense">
+    <>
+      <IonPage>
+        <IonHeader>
           <IonToolbar>
+            <IonButtons slot="start">
+              <IonMenuButton autoHide={false}> 
+              </IonMenuButton>
+            </IonButtons>
           </IonToolbar>
         </IonHeader>
-        <h3>Total: {total}</h3>
-        <Counter label='d4' value={dice.d4} onChange={(v) => updateDice('d4', v)} squares={updateSquares('d4')}/> 
-        <Counter label='d6' value={dice.d6} onChange={(v) => updateDice('d6', v)} squares={updateSquares('d6')}/>
-        <Counter label='d8' value={dice.d8} onChange={(v) => updateDice('d8', v)} squares={updateSquares('d8')}/>
-        <Counter label='d10' value={dice.d10} onChange={(v) => updateDice('d10', v)} squares={updateSquares('d10')}/>
-        <Counter label='d12' value={dice.d12} onChange={(v) => updateDice('d12', v)} squares={updateSquares('d12')}/>
-        <Counter label='d20' value={dice.d20} onChange={(v) => updateDice('d20', v)} squares={updateSquares('d20')}/>
-      </IonContent>
-      <IonButton onClick={() => handleDiceRoll()}>Roll</IonButton>
-      <IonButton onClick={clearDice}>Clear</IonButton>
-    </IonPage>
+        <IonContent fullscreen>
+          <IonHeader collapse="condense">
+            <IonToolbar>
+            </IonToolbar>
+          </IonHeader>
+          <h3>Total: {total}</h3>
+          <Counter label='d4' value={dice.d4} onChange={(v) => updateDice('d4', v)} squares={updateSquares('d4')}/> 
+          <Counter label='d6' value={dice.d6} onChange={(v) => updateDice('d6', v)} squares={updateSquares('d6')}/>
+          <Counter label='d8' value={dice.d8} onChange={(v) => updateDice('d8', v)} squares={updateSquares('d8')}/>
+          <Counter label='d10' value={dice.d10} onChange={(v) => updateDice('d10', v)} squares={updateSquares('d10')}/>
+          <Counter label='d12' value={dice.d12} onChange={(v) => updateDice('d12', v)} squares={updateSquares('d12')}/>
+          <Counter label='d20' value={dice.d20} onChange={(v) => updateDice('d20', v)} squares={updateSquares('d20')}/>
+        </IonContent>
+        <IonButton onClick={() => handleDiceRoll()}>Roll</IonButton>
+        <IonButton onClick={clearDice}>Clear</IonButton>
+      </IonPage>
+    </>
   );
 };
 

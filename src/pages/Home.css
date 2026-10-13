@@ -12,6 +12,10 @@ ion-toolbar {
   margin-top: calc(var(--safe-area-inset-top, env(safe-area-inset-top, 0px)) * 1.25);
 }
 
+ion-menu {
+  margin-top: calc(var(--safe-area-inset-top, env(safe-area-inset-top, 0px)) * 1.5);
+}
+
 h3 {
   text-align: center;
 }
