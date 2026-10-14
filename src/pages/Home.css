@@ -18,7 +18,7 @@ ion-menu {
 
 h3 {
   text-align: center;
-  background-color: var(--ion-color-dark-contrast);
+  background: alpha(from var(--ion-color-dark-contrast) / 80%)
 }
 
 ion-content {
