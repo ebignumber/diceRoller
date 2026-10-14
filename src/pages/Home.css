@@ -18,4 +18,13 @@ ion-menu {
 
 h3 {
   text-align: center;
+  background-color: var(--ion-color-dark-contrast);
+}
+
+ion-content {
+  --background: none;
+  background-image: var(--app-background-image);
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
 }

@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { IonButton, IonButtons, IonContent, IonHeader, IonIcon, IonMenu, IonMenuButton, IonMenuToggle, IonPage, IonTitle, IonToggle, IonToolbar } from '@ionic/react';
+import { Filesystem, Directory, Encoding } from '@capacitor/filesystem';
 import { getSetting } from '../hooks/settingHooks';
 import Counter from '../components/Counter';
 import './Home.css';
@@ -34,6 +35,40 @@ const Home: React.FC = () => {
     d12: 0,
     d20: 0,
   });
+
+  const [useCustomBackground, setUseCustomBackground] = useState(false);
+  const [customBackgroundPath, setCustomBackgroundPath] = useState('');
+  const [customBackgroundDataUrl, setCustomBackgroundDataUrl] = useState('');
+
+  useEffect(() => {
+    (async () => {
+      const useCustom = (await getSetting("use-custom-background")) === 'true';
+      setUseCustomBackground(useCustom);
+      const path = await getSetting("custom-background-path");
+      if (path) {
+        setCustomBackgroundPath(path);
+        try {
+          const file = await Filesystem.readFile({
+            path: path,
+            directory: Directory.Data,
+          });
+          const dataUrl = `data:image/jpeg;base64,${file.data}`;
+          setCustomBackgroundDataUrl(dataUrl);
+        } catch (error) {
+          console.error('Error reading background file:', error);
+        }
+      }
+    })();
+  }, []);
+
+  useEffect(() => {
+    const root = document.documentElement;
+    if (useCustomBackground && customBackgroundDataUrl) {
+      root.style.setProperty('--app-background-image', `url('${customBackgroundDataUrl}')`);
+    } else {
+      root.style.setProperty('--app-background-image', 'none');
+    }
+  }, [useCustomBackground, customBackgroundDataUrl]);
 
   const [roll, setRoll] = useState<RollConfig>({
     d4: [],
