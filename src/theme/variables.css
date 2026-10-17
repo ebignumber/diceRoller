@@ -1,2 +1,30 @@
-/* For information on how to create your own theme, please refer to:
-http://ionicframework.com/docs/theming/ */
+/*
+ * The lines of code in html and ion-toolbar allow the page to
+ * load above the navigation buttons on the bottom on android
+ * screens and pushes the toolbar downwards. This allows
+*/
+
+html {
+  margin-top: calc(var(--safe-area-inset-top, env(safe-area-inset-top, 0px)) * -1.25);
+}
+
+ion-toolbar {
+  margin-top: calc(var(--safe-area-inset-top, env(safe-area-inset-top, 0px)) * 1.25);
+}
+
+ion-menu {
+  margin-top: calc(var(--safe-area-inset-top, env(safe-area-inset-top, 0px)) * 1.5);
+}
+
+h3 {
+  text-align: center;
+  background: alpha(from var(--ion-color-dark-contrast) / 80%)
+}
+
+ion-content {
+  --background: none;
+  background-image: var(--app-background-image);
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}

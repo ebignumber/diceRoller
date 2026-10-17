@@ -3,7 +3,6 @@ import { IonButton, IonButtons, IonContent, IonHeader, IonIcon, IonMenu, IonMenu
 import { Filesystem, Directory, Encoding } from '@capacitor/filesystem';
 import { getSetting } from '../hooks/settingHooks';
 import Counter from '../components/Counter';
-import './Home.css';
 
 const tenToZero = await getSetting("ten-to-zero") !== "false"
 

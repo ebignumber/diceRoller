@@ -2,7 +2,6 @@ import { useState, useEffect, useRef } from 'react';
 import { IonButton, IonButtons, IonContent, IonHeader, IonIcon, IonMenu, IonMenuButton, IonMenuToggle, IonPage, IonTitle, IonToggle, IonToolbar, IonItem, IonLabel } from '@ionic/react';
 import { Filesystem, Directory, Encoding } from '@capacitor/filesystem';
 import { setSetting, getSetting } from '../hooks/settingHooks';
-import './Home.css';
 
 const Settings = () => {
   const fileInputRef = useRef<HTMLInputElement>(null);
