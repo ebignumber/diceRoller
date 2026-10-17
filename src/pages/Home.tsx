@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { IonButton, IonButtons, IonContent, IonHeader, IonIcon, IonMenu, IonMenuButton, IonMenuToggle, IonPage, IonTitle, IonToggle, IonToolbar } from '@ionic/react';
-import { Filesystem, Directory, Encoding } from '@capacitor/filesystem';
 import { getSetting } from '../hooks/settingHooks';
+import useReadImage from '../hooks/useReadImage';
 import Counter from '../components/Counter';
 
 const tenToZero = await getSetting("ten-to-zero") !== "false"
@@ -46,16 +46,7 @@ const Home: React.FC = () => {
       const path = await getSetting("custom-background-path");
       if (path) {
         setCustomBackgroundPath(path);
-        try {
-          const file = await Filesystem.readFile({
-            path: path,
-            directory: Directory.Data,
-          });
-          const dataUrl = `data:image/jpeg;base64,${file.data}`;
-          setCustomBackgroundDataUrl(dataUrl);
-        } catch (error) {
-          console.error('Error reading background file:', error);
-        }
+        setCustomBackgroundDataUrl(await useReadImage(path));
       }
     })();
   }, []);

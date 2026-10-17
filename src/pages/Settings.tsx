@@ -1,7 +1,8 @@
 import { useState, useEffect, useRef } from 'react';
 import { IonButton, IonButtons, IonContent, IonHeader, IonIcon, IonMenu, IonMenuButton, IonMenuToggle, IonPage, IonTitle, IonToggle, IonToolbar, IonItem, IonLabel } from '@ionic/react';
-import { Filesystem, Directory, Encoding } from '@capacitor/filesystem';
+import { Filesystem, Directory } from '@capacitor/filesystem';
 import { setSetting, getSetting } from '../hooks/settingHooks';
+import useReadImage from '../hooks/useReadImage';
 
 const Settings = () => {
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -15,15 +16,7 @@ const Settings = () => {
         if (path) {
           setCustomBackground(path);
           setUseCustomBackground(useCustom);
-          try {
-            const file = await Filesystem.readFile({
-              path: path,
-              directory: Directory.Data,
-            });
-            setCustomBackgroundPreview(`data:image/jpeg;base64,${file.data}`);
-          } catch (error) {
-            console.error('Error loading preview:', error);
-          }
+          setCustomBackgroundPreview(await useReadImage(path));
         }
       })()
     }, []
