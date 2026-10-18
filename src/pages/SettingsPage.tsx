@@ -1,18 +1,18 @@
 import { useState, useEffect, useRef } from 'react';
 import { IonButton, IonButtons, IonContent, IonHeader, IonIcon, IonMenu, IonMenuButton, IonMenuToggle, IonPage, IonTitle, IonToggle, IonToolbar, IonItem, IonLabel } from '@ionic/react';
 import { Filesystem, Directory } from '@capacitor/filesystem';
-import { setSetting, getSetting } from '../hooks/settingHooks';
+import { useSetSetting, useGetSetting } from '../hooks/settingHooks';
 import useReadImage from '../hooks/useReadImage';
 
-const Settings = () => {
+const SettingsPage = () => {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(
     () => {
       (async () => {
-        setTenToZero((await getSetting("ten-to-zero")) !== 'false')
-        const useCustom = (await getSetting("use-custom-background")) === 'true';
-        const path = await getSetting("custom-background-path");
+        setTenToZero((await useGetSetting("ten-to-zero")) !== 'false')
+        const useCustom = (await useGetSetting("use-custom-background")) === 'true';
+        const path = await useGetSetting("custom-background-path");
         if (path) {
           setCustomBackground(path);
           setUseCustomBackground(useCustom);
@@ -64,12 +64,12 @@ const Settings = () => {
   };
 
   function saveSettings(){
-    setSetting("ten-to-zero", String(tenToZero))
-    setSetting("use-custom-background", String(useCustomBackground))
+    useSetSetting("ten-to-zero", String(tenToZero))
+    useSetSetting("use-custom-background", String(useCustomBackground))
     if (useCustomBackground && customBackground) {
-      setSetting("custom-background-path", customBackground)
+      useSetSetting("custom-background-path", customBackground)
     } else {
-      setSetting("custom-background-path", "")
+      useSetSetting("custom-background-path", "")
     }
   }
 
@@ -121,4 +121,4 @@ const Settings = () => {
   );
 };
 
-export default Settings;
+export default SettingsPage;

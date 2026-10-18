@@ -1,13 +1,13 @@
 import { Preferences } from '@capacitor/preferences';
 
-const setSetting = async (key: string, value: string) => {
+const useSetSetting = async (key: string, value: string) => {
   await Preferences.set({
     key: key,
     value: value,
   });
 };
 
-const getSetting = async (key: string) => {
+const useGetSetting = async (key: string) => {
   try{
     const { value } = await Preferences.get({ key: key });
     return value
@@ -18,8 +18,8 @@ const getSetting = async (key: string) => {
   }
 };
 
-const removeSetting = async (key: string) => {
+const useRemoveSetting = async (key: string) => {
   await Preferences.remove({ key: key });
 };
 
-export { setSetting, getSetting, removeSetting }
+export { useSetSetting, useGetSetting, useRemoveSetting }

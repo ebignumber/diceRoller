@@ -2,7 +2,7 @@ import { Navigate, Route } from 'react-router-dom';
 import { IonApp, IonRouterOutlet, setupIonicReact, IonMenu, IonList, IonLabel, IonItem } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
 import Home from './pages/Home';
-import Settings from './pages/Settings'
+import SettingsPage from './pages/SettingsPage'
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -53,7 +53,7 @@ const App: React.FC = () => (
       <IonRouterOutlet id='main-content'>
         <Route path="/home" element={<Home />} />
         <Route path="/" element={<Navigate to="/home" replace />} />
-        <Route path="settings" element={<Settings />} />
+        <Route path="settings" element={<SettingsPage />} />
       </IonRouterOutlet>
     </IonReactRouter>
   </IonApp>

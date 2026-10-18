@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
 import { IonButton, IonButtons, IonContent, IonHeader, IonIcon, IonMenu, IonMenuButton, IonMenuToggle, IonPage, IonTitle, IonToggle, IonToolbar } from '@ionic/react';
-import { getSetting } from '../hooks/settingHooks';
+import { useGetSetting } from '../hooks/settingHooks';
 import useReadImage from '../hooks/useReadImage';
 import Counter from '../components/Counter';
 
-const tenToZero = await getSetting("ten-to-zero") !== "false"
+const tenToZero = await useGetSetting("ten-to-zero") !== "false"
 
 interface DiceConfig {
   d4: number;
@@ -41,9 +41,9 @@ const Home: React.FC = () => {
 
   useEffect(() => {
     (async () => {
-      const useCustom = (await getSetting("use-custom-background")) === 'true';
+      const useCustom = (await useGetSetting("use-custom-background")) === 'true';
       setUseCustomBackground(useCustom);
-      const path = await getSetting("custom-background-path");
+      const path = await useGetSetting("custom-background-path");
       if (path) {
         setCustomBackgroundPath(path);
         setCustomBackgroundDataUrl(await useReadImage(path));
