@@ -22,6 +22,8 @@ const SettingsPage = () => {
     }, []
   )
 
+  const [savedSettings, setSavedSettings] = useState<Settings>(currentSettings)
+
   const [settings, setSettings] = useState<Settings>(currentSettings)
 
   const [customBackgroundPreview, setCustomBackgroundPreview] = useState('')
@@ -65,10 +67,13 @@ const SettingsPage = () => {
   function changeSetting<Property extends keyof Settings, Value extends Settings[Property]>(setting: Property, value: Value){
     setSettings(prev => ({ ...prev, [setting]: value }))
     console.log(settings)
+    console.log(savedSettings)
+    console.log(settings == savedSettings)
   }
 
   function saveSettings(){
     useSaveSettings(settings)
+    setSavedSettings(settings)
   }
 
   return (
@@ -115,7 +120,7 @@ const SettingsPage = () => {
             </IonToggle>
           </IonItem>
         </IonContent>
-        <IonButton onClick={saveSettings}>Save Changes</IonButton>
+        <IonButton onClick={saveSettings} disabled={savedSettings === settings}>Save Changes</IonButton>
       </IonPage>
     </>
   );
