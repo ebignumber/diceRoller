@@ -3,7 +3,6 @@ import { IonButton, IonButtons, IonContent, IonHeader, IonIcon, IonMenu, IonMenu
 import { useGetSettings } from '../settings/settingUtils';
 import useReadImage from '../hooks/useReadImage';
 import Counter from '../components/Counter';
-import defaultSettings from '../settings/defaultSettings';
 
 const settings = await useGetSettings()
 
@@ -36,30 +35,20 @@ const Home: React.FC = () => {
     d20: 0,
   });
 
-  const [useCustomBackground, setUseCustomBackground] = useState(false);
-  const [customBackgroundPath, setCustomBackgroundPath] = useState('');
-  const [customBackgroundDataUrl, setCustomBackgroundDataUrl] = useState('');
-
   useEffect(() => {
     (async () => {
+      const root = document.documentElement;
       const useCustom = settings['use-custom-background'];
-      setUseCustomBackground(useCustom);
       const path = settings['custom-background-path'];
-      if (path) {
-        setCustomBackgroundPath(path);
-        setCustomBackgroundDataUrl(await useReadImage(path));
+      if (path && useCustom) {
+        const backgroundDataUrl = await useReadImage(path);
+        root.style.setProperty('--app-background-image', `url('${backgroundDataUrl}')`);
+      }
+      else {
+        root.style.setProperty('--app-background-image', 'none');
       }
     })();
   }, []);
-
-  useEffect(() => {
-    const root = document.documentElement;
-    if (useCustomBackground && customBackgroundDataUrl) {
-      root.style.setProperty('--app-background-image', `url('${customBackgroundDataUrl}')`);
-    } else {
-      root.style.setProperty('--app-background-image', 'none');
-    }
-  }, [useCustomBackground, customBackgroundDataUrl]);
 
   const [roll, setRoll] = useState<RollConfig>({
     d4: [],
