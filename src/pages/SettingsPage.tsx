@@ -1,8 +1,11 @@
 import { useState, useEffect, useRef } from 'react';
 import { IonButton, IonButtons, IonContent, IonHeader, IonIcon, IonMenu, IonMenuButton, IonMenuToggle, IonPage, IonTitle, IonToggle, IonToolbar, IonItem, IonLabel } from '@ionic/react';
 import { Filesystem, Directory } from '@capacitor/filesystem';
-import { useSetSetting, useGetSetting } from '../hooks/settingHooks';
+import { useSaveSettings, useGetSettings } from '../settings/settingUtils';
+import type Settings from '../settings/types';
 import useReadImage from '../hooks/useReadImage';
+
+const currentSettings = await useGetSettings()
 
 const SettingsPage = () => {
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -10,21 +13,17 @@ const SettingsPage = () => {
   useEffect(
     () => {
       (async () => {
-        setTenToZero((await useGetSetting("ten-to-zero")) !== 'false')
-        const useCustom = (await useGetSetting("use-custom-background")) === 'true';
-        const path = await useGetSetting("custom-background-path");
-        if (path) {
-          setCustomBackground(path);
-          setUseCustomBackground(useCustom);
+        const path = currentSettings['custom-background-path'];
+        const useCustomBackground = currentSettings['use-custom-background']
+        if (path && useCustomBackground) {
           setCustomBackgroundPreview(await useReadImage(path));
         }
       })()
     }, []
   )
 
-  const [tenToZero, setTenToZero] = useState(true)
-  const [useCustomBackground, setUseCustomBackground] = useState(false)
-  const [customBackground, setCustomBackground] = useState('')
+  const [settings, setSettings] = useState<Settings>(currentSettings)
+
   const [customBackgroundPreview, setCustomBackgroundPreview] = useState('')
 
   const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -38,16 +37,16 @@ const SettingsPage = () => {
             const base64String = base64Data.split(',')[1];
             const fileExt = file.name.split('.').pop() || 'jpg';
             const fileName = `background_${Date.now()}.${fileExt}`;
-            
+
             await Filesystem.writeFile({
               path: fileName,
               data: base64String,
               directory: Directory.Data,
             });
-            
-            setCustomBackground(fileName);
+
+            changeSetting("custom-background-path", fileName)
             setCustomBackgroundPreview(base64Data);
-            setUseCustomBackground(true);
+            changeSetting("use-custom-background", true)
           }
         };
         reader.readAsDataURL(file);
@@ -63,14 +62,13 @@ const SettingsPage = () => {
     }
   };
 
+  function changeSetting<Property extends keyof Settings, Value extends Settings[Property]>(setting: Property, value: Value){
+    setSettings(prev => ({ ...prev, [setting]: value }))
+    console.log(settings)
+  }
+
   function saveSettings(){
-    useSetSetting("ten-to-zero", String(tenToZero))
-    useSetSetting("use-custom-background", String(useCustomBackground))
-    if (useCustomBackground && customBackground) {
-      useSetSetting("custom-background-path", customBackground)
-    } else {
-      useSetSetting("custom-background-path", "")
-    }
+    useSaveSettings(settings)
   }
 
   return (
@@ -79,7 +77,7 @@ const SettingsPage = () => {
         <IonHeader>
           <IonToolbar>
             <IonButtons slot="start">
-              <IonMenuButton autoHide={false}> 
+              <IonMenuButton autoHide={false}>
               </IonMenuButton>
             </IonButtons>
           </IonToolbar>
@@ -90,16 +88,18 @@ const SettingsPage = () => {
             </IonToolbar>
           </IonHeader>
           <IonItem>
-            <IonToggle checked={tenToZero} onIonChange={(e) => {setTenToZero(e.target.checked)}}>Change 10 from d10 to 0</IonToggle>
+            <IonToggle checked={settings['ten-to-zero']} onIonChange={(e) => {changeSetting("ten-to-zero", e.target.checked)}}>
+              Change 10 from d10 to 0
+            </IonToggle>
           </IonItem>
           <IonItem>
             <IonLabel>Custom Background</IonLabel>
             <IonButton onClick={triggerFilePicker}>Select Image</IonButton>
-            <input 
-              type="file" 
-              ref={fileInputRef} 
-              style={{ display: 'none' }} 
-              accept="image/*" 
+            <input
+              type="file"
+              ref={fileInputRef}
+              style={{ display: 'none' }}
+              accept="image/*"
               onChange={handleFileChange}
             />
           </IonItem>
@@ -110,7 +110,7 @@ const SettingsPage = () => {
             </IonItem>
           )}
           <IonItem>
-            <IonToggle checked={useCustomBackground} onIonChange={(e) => setUseCustomBackground(e.target.checked)}>
+            <IonToggle checked={settings['use-custom-background']} onIonChange={(e) => {changeSetting("use-custom-background", e.target.checked)}}>
               Use Custom Background
             </IonToggle>
           </IonItem>

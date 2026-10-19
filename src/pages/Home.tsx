@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react';
 import { IonButton, IonButtons, IonContent, IonHeader, IonIcon, IonMenu, IonMenuButton, IonMenuToggle, IonPage, IonTitle, IonToggle, IonToolbar } from '@ionic/react';
-import { useGetSetting } from '../hooks/settingHooks';
+import { useGetSettings } from '../settings/settingUtils';
 import useReadImage from '../hooks/useReadImage';
 import Counter from '../components/Counter';
+import defaultSettings from '../settings/defaultSettings';
 
-const tenToZero = await useGetSetting("ten-to-zero") !== "false"
+const settings = await useGetSettings()
 
 interface DiceConfig {
   d4: number;
@@ -41,9 +42,9 @@ const Home: React.FC = () => {
 
   useEffect(() => {
     (async () => {
-      const useCustom = (await useGetSetting("use-custom-background")) === 'true';
+      const useCustom = settings['use-custom-background'];
       setUseCustomBackground(useCustom);
-      const path = await useGetSetting("custom-background-path");
+      const path = settings['custom-background-path'];
       if (path) {
         setCustomBackgroundPath(path);
         setCustomBackgroundDataUrl(await useReadImage(path));
@@ -136,7 +137,7 @@ const Home: React.FC = () => {
 
   const updateSquares = (key: keyof RollConfig) => {
     if(rollLastPressed){
-      if(key === 'd10' && tenToZero){
+      if(key === 'd10' && settings['ten-to-zero']){
         return roll[key].map((num) => num == 10 ? 0 : num)
       }
       return roll[key]
