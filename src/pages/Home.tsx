@@ -1,10 +1,13 @@
 import { useState, useEffect } from 'react';
-import { IonButton, IonButtons, IonContent, IonHeader, IonIcon, IonMenu, IonMenuButton, IonMenuToggle, IonPage, IonTitle, IonToggle, IonToolbar } from '@ionic/react';
+import { IonButton, IonButtons, IonContent, IonHeader, IonMenuButton, IonPage, IonToolbar, IonAlert } from '@ionic/react';
 import { useGetSettings } from '../settings/settingUtils';
 import useReadImage from '../hooks/useReadImage';
 import Counter from '../components/Counter';
 
 const settings = await useGetSettings()
+
+const CURRENT_VERSION = "0.2.0_alpha"
+let latestVersion = ""
 
 interface DiceConfig {
   d4: number;
@@ -47,6 +50,21 @@ const Home: React.FC = () => {
       else {
         root.style.setProperty('--app-background-image', 'none');
       }
+
+      if(settings["notify-for-updates"]){
+        try{
+          const response = await fetch("https://raw.githubusercontent.com/ebignumber/diceRoller/refs/heads/main/package.json")
+          const data = await response.json()
+          latestVersion = data.version
+          console.log(latestVersion)
+          if(latestVersion !== CURRENT_VERSION){
+            setIsUpdateAlertOpen(true)
+          }
+        }
+        catch{
+          console.error("Unable to get latest version")
+        }
+      }
     })();
   }, []);
 
@@ -78,6 +96,7 @@ const Home: React.FC = () => {
 
   const [rollLastPressed, setRollLastPressed] = useState(false)
 
+  const [isUpdateAlertOpen, setIsUpdateAlertOpen] = useState(false)
 
   const updateDice = (key: keyof DiceConfig, value: number) => {
     setDice(prev => ({ ...prev, [key]: Math.max(0, value) }));
@@ -159,6 +178,24 @@ const Home: React.FC = () => {
             </IonButtons>
           </IonToolbar>
         </IonHeader>
+        <IonAlert
+          isOpen={isUpdateAlertOpen}
+          header="An update is available!"
+          subHeader={CURRENT_VERSION + " ==> " + latestVersion}
+          onDidDismiss={() => {setIsUpdateAlertOpen(false)}}
+          buttons={[
+            {
+              text: "Cancel",
+              role: "cancel"
+            },
+            {
+              text: "Get Update", 
+              handler: () => {
+                window.location.href = "https://github.com/ebignumber/diceRoller/releases"
+              }
+            }
+          ]}
+        ></IonAlert>
         <IonContent fullscreen>
           <IonHeader collapse="condense">
             <IonToolbar>

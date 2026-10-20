@@ -3,30 +3,19 @@ import { resolveSettings } from './settingUtils';
 import defaultSettings from './defaultSettings';
 
 describe('resolveSettings', () => {
-  it('should return default settings with missing properties filled in', () => {
+  it('should return same settings with missing properties filled in as defaults', () => {
     const partialSettings = {
-      "ten-to-zero": false
-    };
-
-    const result = resolveSettings(partialSettings);
-
-    expect(result).toEqual({
       "ten-to-zero": false,
-      "use-custom-background": false,
-      "custom-background-path": ""
-    });
-  });
-
-  it('should return settings with the same properties', () => {
-    const fullSettings = {
-      "ten-to-zero": true,
       "use-custom-background": true,
       "custom-background-path": "/path/to/background.jpg"
     };
 
-    const result = resolveSettings(fullSettings);
+    const result = resolveSettings(partialSettings);
 
-    expect(result).toEqual(fullSettings);
+    expect(result['ten-to-zero']).toEqual(false)
+    expect(result['use-custom-background']).toEqual(true)
+    expect(result['custom-background-path']).toEqual("/path/to/background.jpg")
+    expect(result['notify-for-updates']).toEqual(true)
   });
 
   it('should ignore extra unnecessary properties and return default settings with known properties', () => {
@@ -40,11 +29,6 @@ describe('resolveSettings', () => {
 
     const result = resolveSettings(settingsWithExtra);
 
-    expect(result).toEqual({
-      "ten-to-zero": true,
-      "use-custom-background": false,
-      "custom-background-path": "/path/to/background.jpg"
-    });
     expect(result).not.toHaveProperty("extra-property");
     expect(result).not.toHaveProperty("another-extra");
   });
@@ -66,10 +50,9 @@ describe('resolveSettings', () => {
 
     const result = resolveSettings(settingsWithUndefined);
 
-    expect(result).toEqual({
-      "ten-to-zero": true,
-      "use-custom-background": true,
-      "custom-background-path": ""
-    });
+    expect(result['ten-to-zero']).toEqual(true)
+    expect(result['use-custom-background']).toEqual(true)
+    expect(result['custom-background-path']).toEqual("")
+    expect(result['notify-for-updates']).toEqual(true)
   });
 });

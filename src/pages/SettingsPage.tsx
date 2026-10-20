@@ -119,6 +119,11 @@ const SettingsPage = () => {
               Use Custom Background
             </IonToggle>
           </IonItem>
+          <IonItem>
+            <IonToggle checked={settings['notify-for-updates']} onIonChange={(e) => {changeSetting("notify-for-updates", e.target.checked)}}>
+              Notify for Updates
+            </IonToggle>
+          </IonItem>
         </IonContent>
         <IonButton onClick={saveSettings} disabled={savedSettings === settings}>Save Changes</IonButton>
       </IonPage>
