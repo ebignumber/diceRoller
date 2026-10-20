@@ -6,7 +6,7 @@ import Counter from '../components/Counter';
 
 const settings = await useGetSettings()
 
-const CURRENT_VERSION = "0.2.0_alpha"
+const CURRENT_VERSION = "0.3.0_alpha"
 let latestVersion = ""
 
 interface DiceConfig {
