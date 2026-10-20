@@ -124,6 +124,12 @@ const SettingsPage = () => {
               Notify for Updates
             </IonToggle>
           </IonItem>
+          <IonItem>
+            <IonToggle checked={settings['confirm-before-clear']} onIonChange={(e) => {changeSetting("confirm-before-clear", e.target.checked)}}>
+              Confirm Before Clear
+            </IonToggle>
+          </IonItem>
+
         </IonContent>
         <IonButton onClick={saveSettings} disabled={savedSettings === settings}>Save Changes</IonButton>
       </IonPage>

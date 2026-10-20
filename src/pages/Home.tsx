@@ -98,6 +98,8 @@ const Home: React.FC = () => {
 
   const [isUpdateAlertOpen, setIsUpdateAlertOpen] = useState(false)
 
+  const [isClearConfirmOpen, setIsClearConfirmOpen] = useState(false)
+
   const updateDice = (key: keyof DiceConfig, value: number) => {
     setDice(prev => ({ ...prev, [key]: Math.max(0, value) }));
     setRollLastPressed(false)
@@ -167,6 +169,15 @@ const Home: React.FC = () => {
     setRollLastPressed(false)
   }
 
+  const handleClearClick = () => {
+    if(settings["confirm-before-clear"]){
+      setIsClearConfirmOpen(true)
+    }
+    else{
+      clearDice()
+    }
+  }
+
   return (
     <>
       <IonPage>
@@ -196,6 +207,24 @@ const Home: React.FC = () => {
             }
           ]}
         ></IonAlert>
+        <IonAlert
+          isOpen={isClearConfirmOpen}
+          subHeader="Are you sure you want to clear your dice?"
+          onDidDismiss={() => {setIsClearConfirmOpen(false)}}
+          buttons={[
+            {
+              text: "Cancel",
+              role: "cancel"
+            },
+            {
+              text: "Confirm", 
+              handler: () => {
+                clearDice()
+              }
+            }
+          ]}
+        ></IonAlert>
+
         <IonContent fullscreen>
           <IonHeader collapse="condense">
             <IonToolbar>
@@ -210,7 +239,7 @@ const Home: React.FC = () => {
           <Counter label='d20' value={dice.d20} onChange={(v) => updateDice('d20', v)} squares={updateSquares('d20')}/>
         </IonContent>
         <IonButton onClick={() => handleDiceRoll()}>Roll</IonButton>
-        <IonButton onClick={clearDice}>Clear</IonButton>
+        <IonButton onClick={handleClearClick}>Clear</IonButton>
       </IonPage>
     </>
   );
