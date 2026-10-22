@@ -3,30 +3,13 @@ import { IonButton, IonButtons, IonContent, IonHeader, IonMenuButton, IonPage, I
 import { useGetSettings } from '../settings/settingUtils';
 import useReadImage from '../hooks/useReadImage';
 import Counter from '../components/Counter';
+import { RollConfig, DiceConfig } from '../dice/types';
+import rollDice from '../dice/diceUtils';
 
 const settings = await useGetSettings()
 
 const CURRENT_VERSION = "0.3.0_alpha"
 let latestVersion = ""
-
-interface DiceConfig {
-  d4: number;
-  d6: number;
-  d8: number;
-  d10: number;
-  d12: number;
-  d20: number;
-}
-
-interface RollConfig {
-  d4: Array<number>;
-  d6: Array<number>;
-  d8: Array<number>;
-  d10: Array<number>;
-  d12: Array<number>;
-  d20: Array<number>;
-}
-
 
 const Home: React.FC = () => {
   const [dice, setDice] = useState<DiceConfig>({
@@ -105,38 +88,7 @@ const Home: React.FC = () => {
     setRollLastPressed(false)
   };
 
-  const rollDice = (diceConfig: DiceConfig) => {
-    const result: Record<keyof DiceConfig, number[]> = {
-      d4: [],
-      d6: [],
-      d8: [],
-      d10: [],
-      d12: [],
-      d20: [],
-    };
-
-    if (diceConfig.d4 > 0) {
-      result.d4 = Array.from({ length: diceConfig.d4 }, () => Math.floor(Math.random() * 4) + 1);
-    }
-    if (diceConfig.d6 > 0) {
-      result.d6 = Array.from({ length: diceConfig.d6 }, () => Math.floor(Math.random() * 6) + 1);
-    }
-    if (diceConfig.d8 > 0) {
-      result.d8 = Array.from({ length: diceConfig.d8 }, () => Math.floor(Math.random() * 8) + 1);
-    }
-    if (diceConfig.d10 > 0) {
-      result.d10 = Array.from({ length: diceConfig.d10 }, () => Math.floor(Math.random() * 10) + 1);
-    }
-    if (diceConfig.d12 > 0) {
-      result.d12 = Array.from({ length: diceConfig.d12 }, () => Math.floor(Math.random() * 12) + 1);
-    }
-    if (diceConfig.d20 > 0) {
-      result.d20 = Array.from({ length: diceConfig.d20 }, () => Math.floor(Math.random() * 20) + 1);
-    }
-
-    return result;
-  };
-
+  
   const handleDiceRoll = () => {
     if(!showRoll){
       setShowRoll(true)
