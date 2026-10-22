@@ -15,7 +15,10 @@ const Counter: React.FC<CounterProps> = ({ label, value, onChange, squares }) =>
 
   return (
     <div className="counter-wrapper">
-      <label className="counter-label">{label}</label>
+      <label className="counter-label">
+        <span className="number-of-squares">{squares?.length}</span>
+        {label}
+      </label>
       <div className="counter-container">
         <button onClick={() => onChange(value - 1)} className="counter-button">
           -
