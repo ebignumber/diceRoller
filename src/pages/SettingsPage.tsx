@@ -66,9 +66,6 @@ const SettingsPage = () => {
 
   function changeSetting<Property extends keyof Settings, Value extends Settings[Property]>(setting: Property, value: Value){
     setSettings(prev => ({ ...prev, [setting]: value }))
-    console.log(settings)
-    console.log(savedSettings)
-    console.log(settings == savedSettings)
   }
 
   function saveSettings(){
