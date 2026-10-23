@@ -14,7 +14,7 @@ import {
 } from '@ionic/react';
 import { DiceConfig } from '../dice/types';
 import DicePreset from '../presets/types';
-import { useGetPresets, useSavePreset } from '../presets/presetUtils';
+import { useGetPresets, useSavePreset, useDeletePreset } from '../presets/presetUtils';
 
 interface PresetModalProps {
   isOpen: boolean;
@@ -67,6 +67,16 @@ const PresetModal: React.FC<PresetModalProps> = ({
     onDidDismiss();
   };
 
+  const handleDeletePreset = async (presetIndex: number) => {
+    try{
+      await useDeletePreset(presetIndex)
+      const updatedPresets = await useGetPresets();
+      setPresets(updatedPresets)
+    } catch (error) {
+      console.error('Failed to delete preset:', error)
+    }
+  }
+
   return (
     <IonModal isOpen={isOpen} onDidDismiss={onDidDismiss}>
       <IonHeader>
@@ -107,8 +117,6 @@ const PresetModal: React.FC<PresetModalProps> = ({
               {presets.map((preset, index) => (
                 <IonItem
                   key={index}
-                  button
-                  onClick={() => handleLoadPreset(preset)}
                 >
                   <IonLabel>
                     <h2>{preset.name}</h2>
@@ -118,6 +126,11 @@ const PresetModal: React.FC<PresetModalProps> = ({
                         .map(([key, count]) => `${key}: ${count}`)
                         .join(', ') || 'No dice'}
                     </p>
+                    <IonButton style={{ width: "100%" }} onClick={() => handleLoadPreset(preset)}>Use Preset</IonButton>
+                    <button 
+                      style={{ position: 'absolute', top: '0', right: '0', padding: '2px', backgroundColor: 'red' }}
+                      onClick={() => {handleDeletePreset(index)}}
+                    >X</button>
                   </IonLabel>
                 </IonItem>
               ))}

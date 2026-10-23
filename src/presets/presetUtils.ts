@@ -25,4 +25,18 @@ const useGetPresets = async () : Promise<DicePreset[]> => {
   }
 };
 
-export { useSavePreset, useGetPresets }
+const useDeletePreset = async (presetIndex: number) => {
+  try{
+    let presets = await useGetPresets()
+    presets.splice(presetIndex, 1)
+    await Preferences.set({
+      key: "presets",
+      value: JSON.stringify(presets)
+    })
+  }
+  catch{
+    console.error("An error occured. Could not delete preset " + presetIndex)
+  }
+}
+
+export { useSavePreset, useGetPresets, useDeletePreset }
