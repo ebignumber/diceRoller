@@ -3,10 +3,13 @@ import { IonButton, IonButtons, IonContent, IonHeader, IonMenuButton, IonPage, I
 import { useGetSettings } from '../settings/settingUtils';
 import useReadImage from '../hooks/useReadImage';
 import Counter from '../components/Counter';
+import PresetModal from '../components/PresetModal';
 import { RollConfig, DiceConfig } from '../dice/types';
 import rollDice from '../dice/diceUtils';
+import { useGetPresets, useSavePreset } from '../presets/presetUtils';
 
 const settings = await useGetSettings()
+const presets = await useGetPresets()
 
 const CURRENT_VERSION = "0.3.0_alpha"
 let latestVersion = ""
@@ -83,6 +86,8 @@ const Home: React.FC = () => {
 
   const [isClearConfirmOpen, setIsClearConfirmOpen] = useState(false)
 
+  const [isPresetModalOpen, setIsPresetModalOpen] = useState(false)
+
   const updateDice = (key: keyof DiceConfig, value: number) => {
     setDice(prev => ({ ...prev, [key]: Math.max(0, value) }));
     setRollLastPressed(false)
@@ -128,6 +133,11 @@ const Home: React.FC = () => {
     else{
       clearDice()
     }
+  }
+
+  const handleLoadPreset = (diceConfig: DiceConfig) => {
+    setDice(diceConfig);
+    setRollLastPressed(false);
   }
 
   return (
@@ -191,7 +201,15 @@ const Home: React.FC = () => {
           <Counter label='d20' value={dice.d20} onChange={(v) => updateDice('d20', v)} squares={updateSquares('d20')}/>
         </IonContent>
         <IonButton onClick={() => handleDiceRoll()}>Roll</IonButton>
-        <IonButton onClick={handleClearClick}>Clear</IonButton>
+        <IonButton size='small' onClick={() => setIsPresetModalOpen(true)}>Presets</IonButton>
+        <IonButton size='small' onClick={handleClearClick}>Clear</IonButton>
+        
+        <PresetModal
+          isOpen={isPresetModalOpen}
+          onDidDismiss={() => setIsPresetModalOpen(false)}
+          currentDice={dice}
+          onLoadPreset={handleLoadPreset}
+        />
       </IonPage>
     </>
   );

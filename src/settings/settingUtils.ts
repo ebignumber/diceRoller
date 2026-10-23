@@ -51,8 +51,4 @@ const useGetSettings = async () : Promise<Settings> => {
   }
 };
 
-const useRemoveSetting = async (key: string) => {
-  await Preferences.remove({ key: key });
-};
-
-export { useSaveSettings, useGetSettings, useRemoveSetting, resolveSettings }
+export { useSaveSettings, useGetSettings, resolveSettings }
