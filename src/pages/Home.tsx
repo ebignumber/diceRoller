@@ -11,7 +11,7 @@ import { useGetPresets, useSavePreset } from '../presets/presetUtils';
 const settings = await useGetSettings()
 const presets = await useGetPresets()
 
-const CURRENT_VERSION = "0.3.0_alpha"
+const CURRENT_VERSION = "0.4.0_alpha"
 let latestVersion = ""
 
 const Home: React.FC = () => {
