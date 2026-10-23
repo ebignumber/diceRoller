@@ -123,7 +123,7 @@ const PresetModal: React.FC<PresetModalProps> = ({
                     <p>
                       {Object.entries(preset.dice)
                         .filter(([_, count]) => count > 0)
-                        .map(([key, count]) => `${key}: ${count}`)
+                        .map(([key, count]) => `${count}${key}`)
                         .join(', ') || 'No dice'}
                     </p>
                     <IonButton style={{ width: "100%" }} onClick={() => handleLoadPreset(preset)}>Use Preset</IonButton>
