@@ -96,7 +96,7 @@ const PresetModal: React.FC<PresetModalProps> = ({
               value={newPresetName}
               placeholder="Enter preset name"
               onIonChange={(e) => setNewPresetName(e.detail.value || '')}
-              style={{ flexGrow: 1 }}
+              style={{ flexGrow: 1, backgroundColor: "var(--ion-color-light)"}}
             />
             <IonButton
               onClick={handleSavePreset}
