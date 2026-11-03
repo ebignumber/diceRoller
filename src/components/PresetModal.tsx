@@ -87,7 +87,7 @@ const PresetModal: React.FC<PresetModalProps> = ({
           </IonButtons>
         </IonToolbar>
       </IonHeader>
-      <IonContent className="ion-padding">
+      <IonContent>
         {/* Save Preset Section */}
         <div style={{ marginBottom: '20px' }}>
           <h3>Save Current Configuration</h3>

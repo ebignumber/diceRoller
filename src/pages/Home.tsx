@@ -8,6 +8,8 @@ import { RollConfig, DiceConfig } from '../dice/types';
 import rollDice from '../dice/diceUtils';
 import { useGetPresets, useSavePreset } from '../presets/presetUtils';
 
+import "./Home.css"
+
 const settings = await useGetSettings()
 const presets = await useGetPresets()
 
@@ -200,9 +202,11 @@ const Home: React.FC = () => {
           <Counter label='d12' value={dice.d12} onChange={(v) => updateDice('d12', v)} squares={updateSquares('d12')}/>
           <Counter label='d20' value={dice.d20} onChange={(v) => updateDice('d20', v)} squares={updateSquares('d20')}/>
         </IonContent>
-        <IonButton onClick={() => handleDiceRoll()}>Roll</IonButton>
-        <IonButton size='small' onClick={() => setIsPresetModalOpen(true)}>Presets</IonButton>
-        <IonButton size='small' onClick={handleClearClick}>Clear</IonButton>
+        <div className="bottom-buttons">
+          <IonButton id='roll-button' onClick={() => handleDiceRoll()}>Roll</IonButton>
+          <IonButton id='preset-button' size='small' onClick={() => setIsPresetModalOpen(true)}>Presets</IonButton>
+          <IonButton id='clear-button' size='small' onClick={handleClearClick}>Clear</IonButton>
+        </div>
         
         <PresetModal
           isOpen={isPresetModalOpen}

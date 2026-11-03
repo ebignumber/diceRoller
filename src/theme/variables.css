@@ -1,30 +1,42 @@
-/*
- * The lines of code in html and ion-toolbar allow the page to
- * load above the navigation buttons on the bottom on android
- * screens and pushes the toolbar downwards. This allows
-*/
-
-html {
-  margin-top: calc(var(--safe-area-inset-top, env(safe-area-inset-top, 0px)) * -1.25);
-}
-
-ion-toolbar {
-  margin-top: calc(var(--safe-area-inset-top, env(safe-area-inset-top, 0px)) * 1.25);
-}
-
-ion-menu {
-  margin-top: calc(var(--safe-area-inset-top, env(safe-area-inset-top, 0px)) * 1.5);
-}
-
-h3 {
-  text-align: center;
-  background: alpha(from var(--ion-color-dark-contrast) / 80%)
-}
-
 ion-content {
+  --padding-bottom: calc(var(--safe-area-inset-bottom, env(safe-area-inset-bottom, 0px)));
+  --padding-start: calc(var(--safe-area-inset-left, env(safe-area-inset-left, 0px)));
+  --padding-end: calc(var(--safe-area-inset-right, env(safe-area-inset-right, 0px)));
+
+
   --background: none;
   background-image: var(--app-background-image);
   background-position: center center;
   background-repeat: no-repeat;
   background-size: cover;
+}
+
+ion-modal {
+  --padding-bottom: calc(var(--safe-area-inset-bottom, env(safe-area-inset-bottom, 0px)));
+  --padding-start: calc(var(--safe-area-inset-left, env(safe-area-inset-left, 0px)));
+  --padding-end: calc(var(--safe-area-inset-right, env(safe-area-inset-right, 0px)));
+}
+
+/* Safe area for bottom buttons */
+.bottom-buttons {
+  margin-bottom: calc(var(--safe-area-inset-bottom, env(safe-area-inset-bottom, 0px)));
+  margin-left: calc(var(--safe-area-inset-left, env(safe-area-inset-left, 0px)));
+  margin-right: calc(var(--safe-area-inset-right, env(safe-area-inset-right, 0px)));
+  display: flex;
+  flex-direction: column;
+}
+
+@media (orientation: landscape) {
+  .bottom-buttons {
+    flex-direction: row;
+    align-items: stretch;
+  }
+  .bottom-buttons > * {
+    flex: 1;
+  }
+}
+
+h3 {
+  text-align: center;
+  background: alpha(from var(--ion-color-dark-contrast) / 80%)
 }
