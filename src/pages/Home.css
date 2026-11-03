@@ -1,13 +1,3 @@
-@media (orientation: landscape) {
-  #preset-button{
-    order: 1;
-  }
-  #roll-button{
-    order: 2;
-    flex-grow: 2;
-  }
-  #clear-button{
-    order: 3;
-  }
-
+#roll-button{
+  flex-grow: 2;
 }

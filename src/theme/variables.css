@@ -23,17 +23,12 @@ ion-modal {
   margin-left: calc(var(--safe-area-inset-left, env(safe-area-inset-left, 0px)));
   margin-right: calc(var(--safe-area-inset-right, env(safe-area-inset-right, 0px)));
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  align-items: stretch;
 }
 
-@media (orientation: landscape) {
-  .bottom-buttons {
-    flex-direction: row;
-    align-items: stretch;
-  }
-  .bottom-buttons > * {
-    flex: 1;
-  }
+.bottom-buttons > ion-button {
+  flex: 1;
 }
 
 h3 {

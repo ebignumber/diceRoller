@@ -203,8 +203,8 @@ const Home: React.FC = () => {
           <Counter label='d20' value={dice.d20} onChange={(v) => updateDice('d20', v)} squares={updateSquares('d20')}/>
         </IonContent>
         <div className="bottom-buttons">
-          <IonButton id='roll-button' onClick={() => handleDiceRoll()}>Roll</IonButton>
           <IonButton id='preset-button' size='small' onClick={() => setIsPresetModalOpen(true)}>Presets</IonButton>
+          <IonButton id='roll-button' onClick={() => handleDiceRoll()}>Roll</IonButton>
           <IonButton id='clear-button' size='small' onClick={handleClearClick}>Clear</IonButton>
         </div>
         
