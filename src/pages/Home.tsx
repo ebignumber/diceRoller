@@ -13,7 +13,7 @@ import "./Home.css"
 const settings = await useGetSettings()
 const presets = await useGetPresets()
 
-const CURRENT_VERSION = "0.4.0_alpha"
+const CURRENT_VERSION = "0.5.0_alpha"
 let latestVersion = ""
 
 const Home: React.FC = () => {
