@@ -128,7 +128,9 @@ const SettingsPage = () => {
           </IonItem>
 
         </IonContent>
-        <IonButton onClick={saveSettings} disabled={savedSettings === settings}>Save Changes</IonButton>
+        <div className="bottom-buttons">
+          <IonButton onClick={saveSettings} disabled={savedSettings === settings}>Save Changes</IonButton>
+        </div>
       </IonPage>
     </>
   );
