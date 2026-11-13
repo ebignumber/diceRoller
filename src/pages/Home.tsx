@@ -4,27 +4,27 @@ import { useGetSettings } from '../settings/settingUtils';
 import useReadImage from '../hooks/useReadImage';
 import Counter from '../components/Counter';
 import PresetModal from '../components/PresetModal';
+import TabModal from '../components/TabModal';
+
 import { RollConfig, DiceConfig } from '../dice/types';
 import rollDice from '../dice/diceUtils';
-import { useGetPresets, useSavePreset } from '../presets/presetUtils';
+import { emptyDice, emptyRoll } from '../dice/empty'; 
+import { Tab } from '../tabs/types';
 
 import "./Home.css"
 
 const settings = await useGetSettings()
-const presets = await useGetPresets()
 
 const CURRENT_VERSION = "0.5.0_alpha"
 let latestVersion = ""
 
 const Home: React.FC = () => {
-  const [dice, setDice] = useState<DiceConfig>({
-    d4: 0,
-    d6: 0,
-    d8: 0,
-    d10: 0,
-    d12: 0,
-    d20: 0,
-  });
+  const [tabs, setTabs] = useState<Tab[]>([{dice: emptyDice, total: 0, lastRoll: emptyRoll}])
+  const [selectedTab, setSelectedTab] = useState(0)
+  const [dice, setDice] = useState<DiceConfig>(emptyDice);
+  const [roll, setRoll] = useState<RollConfig>(emptyRoll);
+  const [total, setTotal] = useState<number>(0);
+
 
   useEffect(() => {
     (async () => {
@@ -56,17 +56,7 @@ const Home: React.FC = () => {
     })();
   }, []);
 
-  const [roll, setRoll] = useState<RollConfig>({
-    d4: [],
-    d6: [],
-    d8: [],
-    d10: [],
-    d12: [],
-    d20: [],
-  });
-
-  const [total, setTotal] = useState<number>(0);
-
+  
   useEffect(() => {
     const allNumbers = [
       ...roll.d4,
@@ -89,6 +79,8 @@ const Home: React.FC = () => {
   const [isClearConfirmOpen, setIsClearConfirmOpen] = useState(false)
 
   const [isPresetModalOpen, setIsPresetModalOpen] = useState(false)
+
+  const [isTabModalOpen, setIsTabModalOpen] = useState(false)
 
   const updateDice = (key: keyof DiceConfig, value: number) => {
     setDice(prev => ({ ...prev, [key]: Math.max(0, value) }));
@@ -142,6 +134,37 @@ const Home: React.FC = () => {
     setRollLastPressed(false);
   }
 
+  const handleTabPress = () => {
+    tabs[selectedTab] = {dice: dice, total: total, lastRoll: roll}
+    setIsTabModalOpen(true)
+
+  }
+
+  const handleAddTab = () => {
+    clearDice()
+    setRoll(emptyRoll)
+    setDice(emptyDice)
+    setTotal(0)
+    setSelectedTab(tabs.length)
+    let updatedTabs = [...tabs]
+    updatedTabs.push({dice: emptyDice, total: 0, lastRoll: emptyRoll})
+    setTabs(updatedTabs)
+    setIsTabModalOpen(false)
+  }
+
+  const handleTabSelect = (index: number) => {
+    setSelectedTab(index)
+    setDice(tabs[index].dice)
+    setRoll(tabs[index].lastRoll)
+    setTotal(tabs[index].total)
+    setIsTabModalOpen(false)
+  }
+
+  const handleUpdateTabs = (updatedTabs: Tab[]) => {
+    setTabs(updatedTabs)
+    setIsTabModalOpen(false)
+  }
+
   return (
     <>
       <IonPage>
@@ -151,6 +174,12 @@ const Home: React.FC = () => {
               <IonMenuButton autoHide={false}> 
               </IonMenuButton>
             </IonButtons>
+            <IonButtons slot="end">
+              <div id="tab-button" onClick={handleTabPress}>
+                {tabs.length}
+              </div>
+            </IonButtons>
+
           </IonToolbar>
         </IonHeader>
         <IonAlert
@@ -207,7 +236,15 @@ const Home: React.FC = () => {
           <IonButton id='roll-button' onClick={() => handleDiceRoll()}>Roll</IonButton>
           <IonButton id='clear-button' size='small' onClick={handleClearClick}>Clear</IonButton>
         </div>
-        
+
+        <TabModal
+          isOpen={isTabModalOpen}
+          currentTabs={tabs}
+          onDidDismiss={() => setIsTabModalOpen(false)}
+          onSelectTab={(index) => handleTabSelect(index)}
+          onAddTab={handleAddTab}
+        >
+        </TabModal>
         <PresetModal
           isOpen={isPresetModalOpen}
           onDidDismiss={() => setIsPresetModalOpen(false)}
