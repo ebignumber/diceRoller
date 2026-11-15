@@ -20,7 +20,8 @@ interface TabModalProps {
   currentTabs: Tab[];
   onDidDismiss: () => void;
   onSelectTab: (index: number) => void;
-  onAddTab: () => void;
+  onUpdateTabs: (newTabs: Tab[]) => void;
+  selectedTab: number;
 }
 
 const TabModal: React.FC<TabModalProps> = ({
@@ -28,28 +29,39 @@ const TabModal: React.FC<TabModalProps> = ({
   onDidDismiss,
   onSelectTab,
   currentTabs,
-  onAddTab
+  onUpdateTabs,
+  selectedTab
 }) => {
-
-  useEffect(() => {
-    setTabs(currentTabs)
-  }, [isOpen])
 
   const [tabs, setTabs] = useState<Tab[]>(currentTabs);
 
   const handleLoadTab = (tabIndex: number) => {
     onSelectTab(tabIndex);
-    onDidDismiss;
+    onDidDismiss();
   };
 
   const handleDeleteTab = (tabIndex: number) => {
     let updatedTabs = [...tabs]
     updatedTabs.splice(tabIndex, 1)
     setTabs(updatedTabs)
+    onUpdateTabs(updatedTabs)
+    if(selectedTab == tabIndex){
+      onSelectTab(updatedTabs.length - 1)
+    }
+    else if(tabIndex < selectedTab){
+      console.log("isNotEqual")
+      onSelectTab(selectedTab - 1)
+    }
+
   }
 
   const handleAddTab = () => {
-    onAddTab()
+    let updatedTabs = [...tabs];
+    updatedTabs.push({dice: emptyDice, total: 0, lastRoll: emptyRoll});
+    setTabs(updatedTabs);
+    onUpdateTabs(updatedTabs);
+    onSelectTab(tabs.length);
+    onDidDismiss();
   }
 
   return (
@@ -98,6 +110,7 @@ const TabModal: React.FC<TabModalProps> = ({
                     <button 
                       style={{ position: 'absolute', top: '0', right: '0', padding: '2px', backgroundColor: 'red' }}
                       onClick={() => {handleDeleteTab(index)}}
+                      disabled={tabs.length == 1}
                     >X</button>
                   </IonLabel>
                 </IonItem>

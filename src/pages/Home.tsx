@@ -70,6 +70,12 @@ const Home: React.FC = () => {
     setTotal(sum);
   }, [roll]);
 
+  useEffect(() => {
+    setDice(tabs[selectedTab].dice)
+    setRoll(tabs[selectedTab].lastRoll)
+    setTotal(tabs[selectedTab].total)
+  }, [selectedTab, tabs])
+
   const [showRoll, setShowRoll] = useState(false)
 
   const [rollLastPressed, setRollLastPressed] = useState(false)
@@ -140,29 +146,13 @@ const Home: React.FC = () => {
 
   }
 
-  const handleAddTab = () => {
-    clearDice()
-    setRoll(emptyRoll)
-    setDice(emptyDice)
-    setTotal(0)
-    setSelectedTab(tabs.length)
-    let updatedTabs = [...tabs]
-    updatedTabs.push({dice: emptyDice, total: 0, lastRoll: emptyRoll})
-    setTabs(updatedTabs)
-    setIsTabModalOpen(false)
-  }
-
   const handleTabSelect = (index: number) => {
     setSelectedTab(index)
-    setDice(tabs[index].dice)
-    setRoll(tabs[index].lastRoll)
-    setTotal(tabs[index].total)
-    setIsTabModalOpen(false)
   }
 
   const handleUpdateTabs = (updatedTabs: Tab[]) => {
     setTabs(updatedTabs)
-    setIsTabModalOpen(false)
+
   }
 
   return (
@@ -242,7 +232,8 @@ const Home: React.FC = () => {
           currentTabs={tabs}
           onDidDismiss={() => setIsTabModalOpen(false)}
           onSelectTab={(index) => handleTabSelect(index)}
-          onAddTab={handleAddTab}
+          onUpdateTabs={(newTabs) => handleUpdateTabs(newTabs)}
+          selectedTab={selectedTab}
         >
         </TabModal>
         <PresetModal
