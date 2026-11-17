@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import {
   IonModal,
   IonButton,
-  IonInput,
   IonList,
   IonItem,
   IonLabel,
@@ -11,9 +10,11 @@ import {
   IonToolbar,
   IonTitle,
   IonButtons,
+  IonIcon
 } from '@ionic/react';
 import { Tab } from '../tabs/types';
 import { emptyDice, emptyRoll } from '../dice/empty';
+import { add } from 'ionicons/icons'
 
 interface TabModalProps {
   isOpen: boolean;
@@ -64,28 +65,22 @@ const TabModal: React.FC<TabModalProps> = ({
     onDidDismiss();
   }
 
+  const gridColumns = tabs.length === 1 ? '1fr' : '1fr 1fr';
+
   return (
     <IonModal isOpen={isOpen} onDidDismiss={onDidDismiss}>
       <IonHeader>
         <IonToolbar>
           <IonTitle>Tabs</IonTitle>
           <IonButtons slot="end">
+            <IonButton onClick={() => {handleAddTab()}}>
+              <IonIcon icon={add}></IonIcon>
+            </IonButton>
             <IonButton onClick={onDidDismiss}>Close</IonButton>
           </IonButtons>
         </IonToolbar>
       </IonHeader>
       <IonContent>
-        {/* Add Tab */}
-        <div style={{ marginBottom: '20px' }}>
-          <h3>Add Tab</h3>
-          <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
-            <IonButton
-              onClick={() => handleAddTab()}
-            >
-              Add Tab
-            </IonButton>
-          </div>
-        </div>
 
         {/* Load Tab Section */}
         <div>
@@ -93,12 +88,19 @@ const TabModal: React.FC<TabModalProps> = ({
           {tabs.length === 0 ? (
             <p>No presets saved yet.</p>
           ) : (
-            <IonList>
+            <IonList 
+              lines='none'
+              style={{ display: 'grid', gridTemplateColumns: gridColumns, gap: '10px' }}
+            >
               {tabs.map((tab, index) => (
                 <IonItem
                   key={index}
+                  onClick={() => {handleLoadTab(index)}}
+                  style={{ border: (index == selectedTab ? '5px' : '1px') +  ' white solid', borderRadius: "9px" }}
                 >
-                  <IonLabel>
+                
+                  <IonLabel
+                  >
                     <h2>{tab.total}</h2>
                     <p>
                       {Object.entries(tab.dice)
@@ -106,10 +108,9 @@ const TabModal: React.FC<TabModalProps> = ({
                         .map(([key, count]) => `${count}${key}`)
                         .join(', ') || 'No dice'}
                     </p>
-                    <IonButton style={{ width: "100%" }} onClick={() => handleLoadTab(index)}>Use Tab</IonButton>
                     <button 
                       style={{ position: 'absolute', top: '0', right: '0', padding: '2px', backgroundColor: 'red' }}
-                      onClick={() => {handleDeleteTab(index)}}
+                      onClick={(e) => {e.stopPropagation(); handleDeleteTab(index)}}
                       disabled={tabs.length == 1}
                     >X</button>
                   </IonLabel>
