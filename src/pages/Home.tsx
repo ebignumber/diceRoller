@@ -154,9 +154,10 @@ const Home: React.FC = () => {
     setTabs(updatedTabs)
   }
 
-  const appendToTabs = (dice: DiceConfig) => {
+  const appendToTabs = (presetDice: DiceConfig) => {
     let updatedTabs = [...tabs]
-    updatedTabs.push({dice: dice, total: 0, lastRoll: emptyRoll})
+    updatedTabs.push({dice: presetDice, total: 0, lastRoll: emptyRoll})
+    updatedTabs[selectedTab] = {dice: dice, total: total, lastRoll: roll}
     setTabs(updatedTabs)
     setSelectedTab(updatedTabs.length - 1)
   }
