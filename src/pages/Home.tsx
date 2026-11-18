@@ -16,7 +16,7 @@ import "./Home.css"
 
 const settings = await useGetSettings()
 
-const CURRENT_VERSION = "0.5.0_alpha"
+const CURRENT_VERSION = "0.6.0_alpha"
 let latestVersion = ""
 
 const Home: React.FC = () => {
