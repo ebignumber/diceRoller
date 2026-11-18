@@ -21,6 +21,7 @@ interface PresetModalProps {
   onDidDismiss: () => void;
   currentDice: DiceConfig;
   onLoadPreset: (dice: DiceConfig) => void;
+  onLoadInNewTab: (dice: DiceConfig) => void;
 }
 
 const PresetModal: React.FC<PresetModalProps> = ({
@@ -28,6 +29,7 @@ const PresetModal: React.FC<PresetModalProps> = ({
   onDidDismiss,
   currentDice,
   onLoadPreset,
+  onLoadInNewTab
 }) => {
   const [presets, setPresets] = useState<DicePreset[]>([]);
   const [newPresetName, setNewPresetName] = useState('');
@@ -66,6 +68,11 @@ const PresetModal: React.FC<PresetModalProps> = ({
     onLoadPreset(preset.dice);
     onDidDismiss();
   };
+
+  const handleLoadInNewTab = (preset: DicePreset) => {
+    onLoadInNewTab(preset.dice);
+    onDidDismiss();
+  }
 
   const handleDeletePreset = async (presetIndex: number) => {
     try{
@@ -127,6 +134,7 @@ const PresetModal: React.FC<PresetModalProps> = ({
                         .join(', ') || 'No dice'}
                     </p>
                     <IonButton style={{ width: "100%" }} onClick={() => handleLoadPreset(preset)}>Use Preset</IonButton>
+                    <IonButton style={{ width: "100%" }} onClick={() => handleLoadInNewTab(preset)}>Use In New Tab</IonButton>
                     <button 
                       style={{ position: 'absolute', top: '0', right: '0', padding: '2px', backgroundColor: 'red' }}
                       onClick={() => {handleDeletePreset(index)}}

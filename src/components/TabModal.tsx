@@ -34,7 +34,12 @@ const TabModal: React.FC<TabModalProps> = ({
   selectedTab
 }) => {
 
+
   const [tabs, setTabs] = useState<Tab[]>(currentTabs);
+
+  useEffect(() =>{
+    setTabs(currentTabs)
+  }, [isOpen])
 
   const handleLoadTab = (tabIndex: number) => {
     onSelectTab(tabIndex);

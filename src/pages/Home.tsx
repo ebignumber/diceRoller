@@ -152,7 +152,13 @@ const Home: React.FC = () => {
 
   const handleUpdateTabs = (updatedTabs: Tab[]) => {
     setTabs(updatedTabs)
+  }
 
+  const appendToTabs = (dice: DiceConfig) => {
+    let updatedTabs = [...tabs]
+    updatedTabs.push({dice: dice, total: 0, lastRoll: emptyRoll})
+    setTabs(updatedTabs)
+    setSelectedTab(updatedTabs.length - 1)
   }
 
   return (
@@ -241,6 +247,7 @@ const Home: React.FC = () => {
           onDidDismiss={() => setIsPresetModalOpen(false)}
           currentDice={dice}
           onLoadPreset={handleLoadPreset}
+          onLoadInNewTab={(dice) => appendToTabs(dice)}
         />
       </IonPage>
     </>
