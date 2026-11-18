@@ -10,6 +10,7 @@ import { RollConfig, DiceConfig } from '../dice/types';
 import rollDice from '../dice/diceUtils';
 import { emptyDice, emptyRoll } from '../dice/empty'; 
 import { Tab } from '../tabs/types';
+import emptyTab from '../tabs/empty';
 
 import "./Home.css"
 
@@ -19,7 +20,7 @@ const CURRENT_VERSION = "0.5.0_alpha"
 let latestVersion = ""
 
 const Home: React.FC = () => {
-  const [tabs, setTabs] = useState<Tab[]>([{dice: emptyDice, total: 0, lastRoll: emptyRoll}])
+  const [tabs, setTabs] = useState<Tab[]>([emptyTab])
   const [selectedTab, setSelectedTab] = useState(0)
   const [dice, setDice] = useState<DiceConfig>(emptyDice);
   const [roll, setRoll] = useState<RollConfig>(emptyRoll);
@@ -74,6 +75,7 @@ const Home: React.FC = () => {
     setDice(tabs[selectedTab].dice)
     setRoll(tabs[selectedTab].lastRoll)
     setTotal(tabs[selectedTab].total)
+    setRollLastPressed(tabs[selectedTab].rollLastPressed)
   }, [selectedTab, tabs])
 
   const [showRoll, setShowRoll] = useState(false)
@@ -141,7 +143,7 @@ const Home: React.FC = () => {
   }
 
   const handleTabPress = () => {
-    tabs[selectedTab] = {dice: dice, total: total, lastRoll: roll}
+    tabs[selectedTab] = {dice: dice, total: total, lastRoll: roll, rollLastPressed: rollLastPressed}
     setIsTabModalOpen(true)
 
   }
@@ -156,8 +158,8 @@ const Home: React.FC = () => {
 
   const appendToTabs = (presetDice: DiceConfig) => {
     let updatedTabs = [...tabs]
-    updatedTabs.push({dice: presetDice, total: 0, lastRoll: emptyRoll})
-    updatedTabs[selectedTab] = {dice: dice, total: total, lastRoll: roll}
+    updatedTabs.push(emptyTab)
+    updatedTabs[selectedTab] = {dice: dice, total: total, lastRoll: roll, rollLastPressed: rollLastPressed}
     setTabs(updatedTabs)
     setSelectedTab(updatedTabs.length - 1)
   }

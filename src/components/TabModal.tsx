@@ -15,6 +15,7 @@ import {
 import { Tab } from '../tabs/types';
 import { emptyDice, emptyRoll } from '../dice/empty';
 import { add } from 'ionicons/icons'
+import emptyTab from '../tabs/empty';
 
 interface TabModalProps {
   isOpen: boolean;
@@ -63,7 +64,7 @@ const TabModal: React.FC<TabModalProps> = ({
 
   const handleAddTab = () => {
     let updatedTabs = [...tabs];
-    updatedTabs.push({dice: emptyDice, total: 0, lastRoll: emptyRoll});
+    updatedTabs.push(emptyTab);
     setTabs(updatedTabs);
     onUpdateTabs(updatedTabs);
     onSelectTab(tabs.length);
